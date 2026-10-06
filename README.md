@@ -1,6 +1,6 @@
 # Pipeline de Optimizacion Bioinspirada (BIOptimization)
 
-Proyecto integral de Inteligencia Computacional que implementa el algoritmo metaheuristico de Enjambre de Salpas (**SSA**) para la optimizacion de Redes de Funcion de Base Radial (**RBF**), con persistencia de metricas en la nube mediante **MongoDB Atlas** y analisis estadistico avanzado en Jupyter Notebooks.
+Proyecto integral de Inteligencia Computacional que implementa el algoritmo metaheuristico de Enjambre de Salpas (**SSA**) para la optimizacion de Redes de Funcion de Base Radial (**RBF**), con persistencia de metricas en la nube mediante **MongoDB Atlas**, analisis estadistico avanzado en Jupyter Notebooks, y un pipeline de Integracion Continua y Contenerizacion con **Docker** y **Jenkins**.
 
 ---
 
@@ -26,8 +26,12 @@ BIOptimization/
 ├── tests/
 │   ├── __init__.py
 │   └── test_project.py    # Pruebas unitarias automatizadas (pytest)
+├── .dockerignore          # Archivos excluidos de la imagen Docker
 ├── .env.example           # Plantilla de variables de entorno (MongoDB Atlas)
 ├── .gitignore             # Archivos ignorados por Git
+├── Dockerfile             # Definicion del contenedor Docker
+├── docker-compose.yml     # Orquestador de servicios Docker
+├── Jenkinsfile            # Pipeline declarativo CI/CD para Jenkins
 ├── main.py                # Script principal de ejecucion
 ├── README.md              # Documentacion del proyecto
 └── requirements.txt       # Dependencias del proyecto
@@ -55,12 +59,42 @@ BIOptimization/
 Para ejecutar las pruebas automatizadas con `pytest`:
 
 ```powershell
-python -m pytest tests/
+python -m pytest tests/ -v
 ```
 
 ---
 
-## 📊 Ejecucion y Analisis
+## 🐳 Contenerizacion con Docker
+
+### Construir la imagen Docker:
+```powershell
+docker build -t bioptimization:latest .
+```
+
+### Ejecutar el contenedor:
+```powershell
+docker run --rm --env-file .env bioptimization:latest
+```
+
+### Ejecutar con Docker Compose:
+```powershell
+docker compose up --build
+```
+
+---
+
+## ⚙️ Integracion Continua (CI/CD) con Jenkins
+
+El proyecto cuenta con un `Jenkinsfile` declarativo que automatiza:
+1. **Checkout del Repositorio:** Descarga el codigo fuente desde GitHub.
+2. **Instalacion de Dependencias:** Instala librerias desde `requirements.txt`.
+3. **Pruebas Unitarias:** Ejecuta la suite de pruebas con `pytest`.
+4. **Ejecucion de Algoritmos:** Ejecuta el pipeline de algoritmos bioinspirados.
+5. **Construccion de Imagen Docker:** Construye la imagen contenerizada del proyecto.
+
+---
+
+## 📊 Ejecucion Local y Analisis
 
 1. **Ejecutar el script principal con todos los ejercicios:**
    ```powershell

@@ -1,0 +1,9 @@
+services:
+  bioptimization:
+    build: .
+    container_name: bioptimization_app
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    command: python main.py
