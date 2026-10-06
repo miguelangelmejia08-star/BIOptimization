@@ -3,8 +3,6 @@ pipeline {
 
     environment {
         PYTHONUNBUFFERED = '1'
-        // Ruta de Python para entornos Windows si aplica
-        PATH = "C:\\Users\\migue\\AppData\\Local\\Python\\bin;C:\\Users\\migue\\AppData\\Local\\Python\\pythoncore-3.14-64;C:\\Users\\migue\\AppData\\Local\\Python\\pythoncore-3.14-64\\Scripts;${env.PATH}"
     }
 
     stages {
@@ -18,9 +16,15 @@ pipeline {
             steps {
                 script {
                     if (isUnix()) {
-                        sh 'python3 -m pip install --no-cache-dir -r requirements.txt'
+                        sh '''
+                            python3 -m venv .venv || true
+                            . .venv/bin/activate || true
+                            pip install --no-cache-dir -r requirements.txt || python3 -m pip install --no-cache-dir --break-system-packages -r requirements.txt
+                        '''
                     } else {
-                        bat 'python -m pip install --no-cache-dir -r requirements.txt'
+                        bat '''
+                            python -m pip install --no-cache-dir -r requirements.txt
+                        '''
                     }
                 }
             }
@@ -30,9 +34,14 @@ pipeline {
             steps {
                 script {
                     if (isUnix()) {
-                        sh 'python3 -m pytest tests/ -v'
+                        sh '''
+                            . .venv/bin/activate || true
+                            pytest tests/ -v || python3 -m pytest tests/ -v
+                        '''
                     } else {
-                        bat 'python -m pytest tests/ -v'
+                        bat '''
+                            python -m pytest tests/ -v
+                        '''
                     }
                 }
             }
@@ -42,9 +51,14 @@ pipeline {
             steps {
                 script {
                     if (isUnix()) {
-                        sh 'python3 main.py'
+                        sh '''
+                            . .venv/bin/activate || true
+                            python3 main.py || python main.py
+                        '''
                     } else {
-                        bat 'python main.py'
+                        bat '''
+                            python main.py
+                        '''
                     }
                 }
             }
@@ -60,7 +74,7 @@ pipeline {
                             bat 'docker build -t bioptimization:latest .'
                         }
                     } catch (Exception e) {
-                        echo "[INFO] Docker no esta disponible en el agente de Jenkins. Omitiendo etapa de construccion."
+                        echo "[INFO] Docker CLI no esta disponible dentro del agente. Omitiendo construccion de imagen."
                     }
                 }
             }
@@ -79,3 +93,5 @@ pipeline {
         }
     }
 }
+
+
