@@ -1,0 +1,24 @@
+# Entorno virtual y dependencias
+.venv/
+env/
+venv/
+ENV/
+
+# Variables de entorno y credenciales (Seguridad)
+.env
+
+# Archivos de Python compilados
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+
+# Pytest y pruebas
+.pytest_cache/
+
+# Graficas generadas
+*.png
+

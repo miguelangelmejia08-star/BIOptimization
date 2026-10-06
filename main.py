@@ -2,6 +2,7 @@
 import numpy as np
 from src.aco import AntColonyTSP
 from src.ssa import SalpSwarmAlgorithm, rastrigin_function
+from src.experiment import run_rbf_ssa_experiment
 
 def nearest_neighbor_tsp(coordinates):
     """Heuristica del Vecino Mas Cercano como linea base."""
@@ -80,9 +81,14 @@ def test_ssa_rastrigin():
     print(f"Posicion optima (cercana a ceros): {best_pos}")
     print(f"Evolucion de fitness: {convergence[0]:.4f} -> {convergence[-1]:.4f}")
     print(f"Longitud de la curva de convergencia guardada: {len(convergence)} iteraciones\n")
-    print("=== Ejercicio 2 completado con exito ===")
+    print("=== Ejercicio 2 completado con exito ===\n")
+
+def ejercicio_3_rbf_ssa():
+    """Ejercicio 3: Optimizacion de Hiperparametros de RBF con SSA (10 corridas)."""
+    run_rbf_ssa_experiment()
 
 if __name__ == "__main__":
-    # Puedes descomentar para ejecutar ambos secuencialmente:
+    # Descomenta o ejecuta el ejercicio que desees:
     # ejercicio_1_tsp()
-    test_ssa_rastrigin()
+    # test_ssa_rastrigin()
+    ejercicio_3_rbf_ssa()
